@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+	<meta charset="UTF-8">
+	<title>Espruino</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+	<style>
+		html {
+  			box-sizing: border-box;
+		}
+		*, *:before, *:after {
+		 	box-sizing: inherit;
+		}
+		body {
+			background-color: #272822;
+			color: white;
+		}
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		li {
+			padding: 0;
+		}
+		h1 {
+			font-family: 'Roboto';
+			font-size: 2rem;
+		}
+		h4 {
+			font-family: 'Roboto';
+			font-size: .8rem;
+		}
+		.gutter {
+			padding: 10px;
+		}
+		.container {
+			padding: 0 20px;
+			width: 100%;
+		}
+		.swatch {
+			border-radius: 50%;
+			border: 3px solid black;
+			font-size: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.swatch:active {
+			border-color: grey;
+			opacity: 0.8;
+		}
+		.swatch-wrap {
+			display: block;
+			float: left;
+			text-align: center;
+			width: 70px;
+			height: 70px;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	<section class="container">
+		<h1>LED Controller</h1>
+		<ul>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="255:0:0">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="0:255:0">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="0:0:255">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="255:255:0">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="255:128:0">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="0:255:255">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="255:0:255">swatch</div>			
+			</li>
+			<li class="swatch-wrap">
+				<div class="swatch" data-color="0:255:128">swatch</div>			
+			</li>
+		</ul>
+		<script>
+		$(function(){
+			$('.swatch').each(function(index, el){
+				var color = $(this).data('color');
+				var colors = color.split(':');
+				console.log(":", colors[0]);
+
+				$(this).css('background-color', 'rgb('+colors[0]+','+colors[1]+','+colors[2]+')');
+				console.log("sending color: ", color);
+
+				$(el).on('click', function(){
+					// var color = $(this).data('color');
+
+					var req = new XMLHttpRequest();
+					req.open("POST","?color=" + color, true);
+					req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+					req.send();
+				});
+			});
+		});
+		</script>
+	</section>
+</body>
+</html>
